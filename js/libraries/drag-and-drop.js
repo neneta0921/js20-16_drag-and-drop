@@ -1,52 +1,66 @@
-// Drag Functionality
-let draggedItem;
-let dragging = false;
-let currentColumn;
+class DragAndDrop {
+  // Drag Functionality
+  constructor() {
+    this._draggedItem;
+    this._dragging = false;
+    this._currentColumn;
+  }
 
-// function rebuildArray(array, list) {
-//   array = Array.from(list.children).map((i) => i.textContent);
-// }
+  // When Item Starts Dragging
+  drag(e) {
+    this._draggedItem = e.target;
+    this._dragging = true;
+  }
 
-// Allows arrays to reflect Drag and Drop items
-function rebuildArrays() {
-  backlogListArray = Array.from(backlogList.children).map((i) => i.textContent);
-  progressListArray = Array.from(progressList.children).map((i) => i.textContent);
-  completeListArray = Array.from(completeList.children).map((i) => i.textContent);
-  onHoldListArray = Array.from(onHoldList.children).map((i) => i.textContent);
-  updateDOM();
-}
+  // Column Allows for Item to Drop
+  allowDrop(e) {
+    e.preventDefault();
+  }
 
-// When Item Starts Dragging
-function drag(e) {
-  draggedItem = e.target;
-  dragging = true;
-}
+  // When Item Enters Columns Area
+  dragEnter(column) {
+    listColumns[column].classList.add('over');
+    this._currentColumn = column;
+  }
 
-// Column Allows for Item to Drop
-function allowDrop(e) {
-  e.preventDefault();
-}
+  // Dropping Item in Column
+  drop(e) {
+    e.preventDefault();
 
-// When Item Enters Columns Area
-function dragEnter(column) {
-  listColumns[column].classList.add('over');
-  currentColumn = column;
-}
+    // Remove Background Color/Padding
+    listColumns.forEach((column) => {
+      column.classList.remove('over');
+    });
 
-// Dropping Item in Column
-function drop(e) {
-  e.preventDefault();
+    // Add Item to Column
+    const parent = listColumns[this._currentColumn];
+    parent.append(this._draggedItem);
 
-  // Remove Background Color/Padding
-  listColumns.forEach((column) => {
-    column.classList.remove('over');
-  });
+    // Dragging Complete
+    this._dragging = false;
+    this._rebuildArrays();
+  }
 
-  // Add Item to Column
-  const parent = listColumns[currentColumn];
-  parent.append(draggedItem);
+  // Allows arrays to reflect Drag and Drop items
+  _rebuildArrays() {
+    backlogListArray = Array.from(backlogList.children).map((i) => i.textContent);
+    progressListArray = Array.from(progressList.children).map((i) => i.textContent);
+    completeListArray = Array.from(completeList.children).map((i) => i.textContent);
+    onHoldListArray = Array.from(onHoldList.children).map((i) => i.textContent);
+    updateDOM();
+  }
 
-  // Dragging Complete
-  dragging = false;
-  rebuildArrays();
+  // Update Item - Delete if necessary, or update Array value
+  updateItem(id, column) {
+    const selectedArray = arrays[column];
+    const selectedColumnEl = listColumns[column].children;
+    if (!this._dragging) {
+      if (!selectedColumnEl[id].textContent) {
+        delete selectedArray[id];
+      } else {
+        selectedArray[id] = selectedColumnEl[id].textContent;
+      }
+      updateDOM();
+    }
+  }
 }
