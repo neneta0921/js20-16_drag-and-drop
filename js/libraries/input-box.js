@@ -1,29 +1,33 @@
-const addBtns = document.querySelectorAll('.add-btn:not(.solid)');
-const saveItemBtns = document.querySelectorAll('.solid');
-const addItemContainers = document.querySelectorAll('.add-container');
+class InputBox {
+  constructor() {
+    this._addBtns = document.querySelectorAll('.add-btn:not(.solid)');
+    this._saveItemBtns = document.querySelectorAll('.solid');
+    this._addItemContainers = document.querySelectorAll('.add-container');
+  }
 
-// Show Add Item Input Box
-function showInputBox(column) {
-  addBtns[column].style.visibility = 'hidden';
-  saveItemBtns[column].style.display = 'flex';
-  addItemContainers[column].style.display = 'flex';
-}
+  // Show Add Item Input Box
+  showInputBox(column) {
+    this._addBtns[column].style.visibility = 'hidden';
+    this._saveItemBtns[column].style.display = 'flex';
+    this._addItemContainers[column].style.display = 'flex';
+  }
 
-// Hide Item Input Box
-function hideInputBox(column) {
-  addBtns[column].style.visibility = 'visible';
-  saveItemBtns[column].style.display = 'none';
-  addItemContainers[column].style.display = 'none';
-  addToColumn(column);
-}
+  // Hide Item Input Box
+  hideInputBox(column) {
+    this._addBtns[column].style.visibility = 'visible';
+    this._saveItemBtns[column].style.display = 'none';
+    this._addItemContainers[column].style.display = 'none';
+    this._addToColumn(column);
+  }
 
-// Add to Column List, Reset Input box
-function addToColumn(column) {
-  const addItems = document.querySelectorAll('.add-item');
-  const itemText = addItems[column].textContent;
-  const selectedArray = arrays[column];
+  // Add to Column List, Reset Input box
+  _addToColumn(column) {
+    const addItems = document.querySelectorAll('.add-item');
+    const itemText = addItems[column].textContent;
+    const selectedArray = arrays[column];
 
-  selectedArray.push(itemText);
-  addItems[column].textContent = '';
-  updateDOM();
+    selectedArray.push(itemText);
+    addItems[column].textContent = '';
+    updateDOM();
+  }
 }
