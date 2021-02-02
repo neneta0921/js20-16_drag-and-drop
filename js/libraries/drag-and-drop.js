@@ -4,6 +4,7 @@ class DragAndDrop {
     this._draggedItem;
     this._dragging = false;
     this._currentColumn;
+    this._listColumns = document.querySelectorAll('.drag-item-list');
   }
 
   // When Item Starts Dragging
@@ -19,7 +20,7 @@ class DragAndDrop {
 
   // When Item Enters Columns Area
   dragEnter(column) {
-    listColumns[column].classList.add('over');
+    this._listColumns[column].classList.add('over');
     this._currentColumn = column;
   }
 
@@ -28,12 +29,12 @@ class DragAndDrop {
     e.preventDefault();
 
     // Remove Background Color/Padding
-    listColumns.forEach((column) => {
+    this._listColumns.forEach((column) => {
       column.classList.remove('over');
     });
 
     // Add Item to Column
-    const parent = listColumns[this._currentColumn];
+    const parent = this._listColumns[this._currentColumn];
     parent.append(this._draggedItem);
 
     // Dragging Complete
@@ -53,7 +54,7 @@ class DragAndDrop {
   // Update Item - Delete if necessary, or update Array value
   updateItem(id, column) {
     const selectedArray = arrays[column];
-    const selectedColumnEl = listColumns[column].children;
+    const selectedColumnEl = this._listColumns[column].children;
     if (!this._dragging) {
       if (!selectedColumnEl[id].textContent) {
         delete selectedArray[id];
