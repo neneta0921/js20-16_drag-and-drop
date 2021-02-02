@@ -1,5 +1,12 @@
 /* Trees Image - Pexels: https://www.pexels.com/photo/photo-of-trees-in-forest-3801030/ */
 @import url("https://fonts.googleapis.com/css?family=Quicksand&display=swap");
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+}
+
 html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -153,6 +160,10 @@ ul {
   line-height: 1.5rem;
   letter-spacing: 1px;
   cursor: pointer;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+   -ms-user-select: text;
+       user-select: text;
 }
 
 .drag-item-list {
